@@ -43,6 +43,16 @@ class UserTable extends React.Component {
       Header: 'User',
       accessor: 'username'
     }, {
+      Header: 'Actions',
+      id: 'click-me-button',
+      Cell: 
+        ({ row }) => {return (
+          <div>
+            <button onClick={() => this.handleClockIn(row.username)}>Clock In</button>
+            <button onClick={() => this.handleClockOut(row.username)}>Clock Out</button>
+          </div>
+        )}
+      }, {
       Header: 'Latest Clock-In',
       id: 'latestClockIn',
       accessor: (data) => {
@@ -57,6 +67,7 @@ class UserTable extends React.Component {
         return helpers.fmtDate(data.latestClockOut)
       }
     }];
+    
     window.setTimeout(() => {
       this.setState({
         data: users,
@@ -66,6 +77,34 @@ class UserTable extends React.Component {
     }, 500);
 
     console.log(users);
+  }
+
+  async handleClockIn(username) {
+    axios.get(`${apiUrl}/user/${username}/clock-in`)
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        if (data.status === 'error') {
+          alert(`${username} is already clocked in!`);
+        } else {
+          alert(`${username} was clocked in successfully!`)
+        }
+      })
+      await this.latestInAndOut();
+  }
+
+  async handleClockOut(username) {
+    axios.get(`${apiUrl}/user/${username}/clock-out`)
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        if (data.status === 'error') {
+          alert(`${username} is clocked out already!`);
+        } else {
+          alert(`${username} was clocked out successfully!`)
+        }
+      })
+      await this.latestInAndOut();
   }
 
   async addUser() {
