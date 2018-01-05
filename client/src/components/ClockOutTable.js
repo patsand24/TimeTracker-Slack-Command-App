@@ -47,7 +47,7 @@ class ClockOutTable extends React.Component {
   render() {
     return (
       <div>
-        <ReactTable
+        <ReactTable className="-striped -highlight"
           filterable
           defaultFilterMethod={(filter, row) => {
             return String(row[filter.id]).includes(filter.value);
