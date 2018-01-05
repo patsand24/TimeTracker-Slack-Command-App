@@ -5,6 +5,7 @@ import "react-table/react-table.css";
 import moment from 'moment';
 import helpers from '../helpers';
 const apiUrl = helpers.api;
+
 // await axios.get(`${apiUrl}`)
 class UserTable extends React.Component {
   constructor(props) {
@@ -43,16 +44,6 @@ class UserTable extends React.Component {
       Header: 'User',
       accessor: 'username'
     }, {
-      Header: 'Actions',
-      id: 'click-me-button',
-      Cell: 
-        ({ row }) => {return (
-          <div>
-            <button onClick={() => this.handleClockIn(row.username)}>Clock In</button>
-            <button onClick={() => this.handleClockOut(row.username)}>Clock Out</button>
-          </div>
-        )}
-      }, {
       Header: 'Latest Clock-In',
       id: 'latestClockIn',
       accessor: (data) => {
@@ -66,7 +57,17 @@ class UserTable extends React.Component {
         if (!data.latestClockOut) return null;
         return helpers.fmtDate(data.latestClockOut)
       }
-    }];
+    }, {
+      Header: 'Actions',
+      id: 'click-me-button',
+      Cell: 
+        ({ row }) => {return (
+          <div>
+            <button onClick={() => this.handleClockIn(row.username)}>Clock In</button>
+            <button onClick={() => this.handleClockOut(row.username)}>Clock Out</button>
+          </div>
+        )}
+      }];
     
     window.setTimeout(() => {
       this.setState({
