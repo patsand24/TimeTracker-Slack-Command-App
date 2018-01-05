@@ -20,6 +20,7 @@ class UserTable extends React.Component {
       }],
       loading: true
     }
+    this.addUser = this.addUser.bind(this);
   }
 
   async getAllPunches() {
@@ -67,6 +68,14 @@ class UserTable extends React.Component {
     console.log(users);
   }
 
+  async addUser() {
+    const username = this.addUserInput.value;
+    if (!username) return alert('Missing username.');
+    if (this.state.data.some((user) => user.username === username)) return alert('User already exists.');
+    const response = await axios.get(`${apiUrl}/users/add/${username}`);
+    await this.latestInAndOut();
+  }
+
   async componentDidMount() {
     await this.latestInAndOut();
   }
@@ -83,7 +92,7 @@ class UserTable extends React.Component {
           data={this.state.data} 
           columns={this.state.columns} 
         />
-        <input /> <button>Add User</button>
+        <input ref={(input) => this.addUserInput = input } /> <button onClick={this.addUser}>Add User</button>
       </div>
     );
     

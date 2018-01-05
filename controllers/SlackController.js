@@ -1,7 +1,8 @@
 const User = require('../models/User');
 const ClockIn = require('../models/ClockIn');
 const ClockOut = require('../models/ClockOut');
-
+const moment = require('moment');
+const fmtDate = (date) => moment(date).format('MMMM Do YYYY, h:mm:ss a');
 // beware: time-crunch spaghetti incoming
 
 // helper function to find/create user
@@ -35,7 +36,7 @@ async function clockUserIn(req, res, next) {
         if (err) console.log(err);
         res.json({
           response_type: 'in_channel',
-          text: `${username} clocked in at ${clockIn.timeIn.toString()}`
+          text: `${username} clocked in at ${fmtDate(clockIn.timeIn)} EST`
         });
         User.toggleClockedIn(user._id);
       });
@@ -64,7 +65,7 @@ async function clockUserOut(req, res, next) {
         if (err) console.log(err);
         res.json({
           response_type: 'in_channel',
-          text: `${username} clocked out at ${clockOut.timeOut.toString()}`
+          text: `${username} clocked out at ${fmtDate(clockOut.timeOut)} EST`
         });
         User.toggleClockedIn(user._id);
       });
