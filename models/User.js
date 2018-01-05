@@ -5,6 +5,9 @@ const ClockOut = require('./ClockOut');
 const LunchIn = require('./LunchIn');
 const LunchOut = require('./LunchOut');
 
+const Errors = require('./ModelErrors');
+const { AlreadyClockedInError, AlreadyClockedOutError } = Errors;
+
 const UserSchema = new mongoose.Schema({
   username: String,
   /*
@@ -27,7 +30,6 @@ UserSchema.statics.toggleClockedIn = function(userId) {
   }).catch((err) => console.log(err));
 }
 
-
 // instance methods 
 UserSchema.methods.getLatestClockIn = function(callback) {
   ClockIn.findOne({user: this._id}).sort({clockIn: -1}).limit(1).exec(callback);
@@ -47,8 +49,7 @@ UserSchema.methods.getAllClockOuts = function(callback) {
 
 UserSchema.methods.clockUserIn = function(callback) {
   if (this.isClockedIn) {
-    const error = new Error(`${this.username} is already clocked in.`);
-    error.name = 'AlreadyClockedInError';
+    const error = new AlreadyClockedInError(`${this.username} is already clocked in.`);
     callback(error, null);
   }
   const clockIn = new ClockIn();
@@ -58,13 +59,13 @@ UserSchema.methods.clockUserIn = function(callback) {
     if (!this.isClockedIn) User.toggleClockedIn(this._id);
   } catch (err) {
     console.log(err);
+    throw err;
   }
 }
 
 UserSchema.methods.clockUserOut = function(callback) {
   if (!this.isClockedIn) {
-    const error = new Error(`${this.username} is already clocked out.`);
-    error.name = 'AlreadyClockedOutError';
+    const error = new AlreadyClockedOutError(`${this.username} is already clocked out.`);
     callback(error, null);
   }
   const clockOut = new ClockOut();
@@ -74,6 +75,7 @@ UserSchema.methods.clockUserOut = function(callback) {
     if (this.isClockedIn) User.toggleClockedIn(this._id);
   } catch (err) {
     console.log(err);
+    throw err;
   }
 }
 
