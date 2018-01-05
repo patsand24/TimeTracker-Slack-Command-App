@@ -36,6 +36,7 @@ app.get('/api/user/:username/all-clock-outs', UserController.getAllClockOutsByUs
 app.get('/api/get-clock-ins', ClockInController.getAllClockIns);
 app.get('/api/get-clock-outs', ClockOutController.getAllClockOuts);
 
+
 app.post('/api/clock-in', SlackController.clockUserIn);
 
 app.post('/api/clock-out', SlackController.clockUserOut);

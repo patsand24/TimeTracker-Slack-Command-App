@@ -58,7 +58,7 @@ UserSchema.methods.getAllClockIns = function(callback) {
 }
 
 UserSchema.methods.getAllClockOuts = function(callback) {
-  ClockOuts.find({user: this._id}).exec(callback);
+  ClockOut.find({user: this._id}).exec(callback);
 }
 
 UserSchema.methods.clockUserIn = function(callback) {
