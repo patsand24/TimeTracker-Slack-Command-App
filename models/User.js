@@ -30,6 +30,20 @@ UserSchema.statics.toggleClockedIn = function(userId) {
   }).catch((err) => console.log(err));
 }
 
+UserSchema.statics.findOrAddNewUser = async function (username, callback) {
+  const user = await User.findOne({username});
+  if (!user) {
+    const newUserToSave = new User();
+    newUserToSave.username = username;
+    try {
+      newUserToSave.save(callback);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+}
+
 // instance methods 
 UserSchema.methods.getLatestClockIn = function(callback) {
   ClockIn.findOne({user: this._id}).sort({clockIn: -1}).limit(1).exec(callback);

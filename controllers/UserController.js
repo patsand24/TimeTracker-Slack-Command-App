@@ -8,7 +8,7 @@ const { UserNotFoundError, UserAlreadyExistsError } = Errors;
 // helper methods
 async function getUser(username) {
   const user = await User.findOne({username: username});
-  if (!user) throw UserNotFoundError(`No user found with the username: ${req.params.username}`);
+  if (!user) throw UserNotFoundError(`No user found with the username: ${username}`);
   return user;
 }
 
