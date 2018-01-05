@@ -4,7 +4,7 @@ import axios from 'axios';
 import "react-table/react-table.css";
 import moment from 'moment';
 import helpers from '../helpers';
-const apiUrl = 'http://localhost:4000/api';
+const apiUrl = helpers.api;
 // await axios.get(`${apiUrl}`)
 
 class ClockOutTable extends React.Component {
