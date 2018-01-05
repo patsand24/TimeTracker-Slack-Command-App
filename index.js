@@ -2,13 +2,19 @@
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
-const app = express();
-
+const cors = require('cors');
 const httpRequest = require('request');
 
+const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+// cors
+app.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT,DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Accept');
+  next();
+});
 // models
 const db = require('./db');
 const User = require('./models/User');
@@ -48,12 +54,6 @@ app.post('/slack-event', async function(req, res, next) {
 
 db.on('error', (err) => console.log(err));
 
-// CORS middleware
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
 // error handler middleware
 app.use((error, req, res, next) => {
   res.json({
@@ -63,7 +63,7 @@ app.use((error, req, res, next) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!');
+app.listen(4000, () => {
+  console.log('Example app listening on port 4000!');
 });
 

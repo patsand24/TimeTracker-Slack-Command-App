@@ -56,10 +56,11 @@ async function getLatestClockIn(req, res, next) {
   try {
     const user = await getUser(req.params.username);
     user.getLatestClockIn((err, clockIn) => {
+      console.log(clockIn);
       if (err) throw err;
       res.json({
         status: 'success',
-        timeIn: clockIn.timeIn,
+        latestClockIn: clockIn,
         user
       })
     });
@@ -73,7 +74,7 @@ async function getLatestClockOut(req, res, next) {
       if (err) throw err;
       res.json({
         status: 'success',
-        timeOut: clockOut.timeOut,
+        latestClockOut: clockOut,
         user
       })
     });

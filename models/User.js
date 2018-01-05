@@ -46,19 +46,19 @@ UserSchema.statics.findOrAddNewUser = async function (username, callback) {
 
 // instance methods 
 UserSchema.methods.getLatestClockIn = function(callback) {
-  ClockIn.findOne({user: this._id}).sort({clockIn: -1}).limit(1).exec(callback);
+  ClockIn.findOne({user: this._id}).populate('user').sort({clockIn: -1}).limit(1).exec(callback);
 }
 
 UserSchema.methods.getLatestClockOut = function(callback) {
-  ClockOut.findOne({user: this._id}).sort({clockOut: -1}).limit(1).exec(callback);
+  ClockOut.findOne({user: this._id}).populate('user').sort({clockOut: -1}).limit(1).exec(callback);
 }
 
 UserSchema.methods.getAllClockIns = function(callback) {
-  ClockIn.find({user: this._id}).exec(callback);
+  ClockIn.find({user: this._id}).populate('user').exec(callback);
 }
 
 UserSchema.methods.getAllClockOuts = function(callback) {
-  ClockOut.find({user: this._id}).exec(callback);
+  ClockOut.find({user: this._id}).populate('user').exec(callback);
 }
 
 UserSchema.methods.clockUserIn = function(callback) {
