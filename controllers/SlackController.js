@@ -63,9 +63,12 @@ async function clockUserOut(req, res, next) {
       newClockOut.user = user._id;
       newClockOut.save((err, clockOut) => {
         if (err) console.log(err);
-        res.json({
-          response_type: 'in_channel',
-          text: `${username} clocked out at ${fmtDate(clockOut.timeOut)} EST`
+        user.getLatestClockIn((err2, {timeIn}) => {
+
+          res.json({
+            response_type: 'in_channel',
+            text: `${username} clocked out at ${fmtDate(clockOut.timeOut)} EST. (Last clock in was ${moment(timeIn).fromNow()})`
+          });
         });
         User.toggleClockedIn(user._id);
       });
