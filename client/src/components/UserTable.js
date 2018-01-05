@@ -108,6 +108,10 @@ class UserTable extends React.Component {
       await this.latestInAndOut();
   }
 
+  async reloadData() {
+    await this.latestInAndOut();
+  }
+
   async addUser() {
     const username = this.addUserInput.value;
     if (!username) return alert('Missing username.');
@@ -132,7 +136,12 @@ class UserTable extends React.Component {
           data={this.state.data} 
           columns={this.state.columns} 
         />
+        <div>
+          <button onClick={() => this.reloadData()}>Reload Data</button>
+        </div>
+        <div>
         <input ref={(input) => this.addUserInput = input } /> <button onClick={this.addUser}>Add User</button>
+        </div>
       </div>
     );
     
