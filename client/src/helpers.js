@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 
-const apiUrl = 'http://21c76475.ngrok.io/api';
+const apiUrl = ' http://66bdcaa5.ngrok.io';
 
 export default {
   async getUsers() {
