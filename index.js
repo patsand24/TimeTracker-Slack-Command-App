@@ -29,23 +29,23 @@ const SlackController = require('./controllers/SlackController');
 // routes
 app.get('/', (req, res) => res.send('Hello World!'));
 
-app.get('/api/users', UserController.getAllUsers);
-app.get('/api/users/add/:username', UserController.addUser);
+app.get('/users', UserController.getAllUsers);
+app.get('/users/add/:username', UserController.addUser);
 
-app.get('/api/user/:username', UserController.getUserByUsername);
-app.get('/api/user/:username/clock-in', UserController.clockUserIn);
-app.get('/api/user/:username/clock-out', UserController.clockUserOut);
-app.get('/api/user/:username/latest-clock-in', UserController.getLatestClockIn);
-app.get('/api/user/:username/latest-clock-out', UserController.getLatestClockOut);
-app.get('/api/user/:username/all-clock-ins', UserController.getAllClockInsByUsername);
-app.get('/api/user/:username/all-clock-outs', UserController.getAllClockOutsByUsername);
-app.get('/api/get-clock-ins', ClockInController.getAllClockIns);
-app.get('/api/get-clock-outs', ClockOutController.getAllClockOuts);
+app.get('/user/:username', UserController.getUserByUsername);
+app.get('/user/:username/clock-in', UserController.clockUserIn);
+app.get('/user/:username/clock-out', UserController.clockUserOut);
+app.get('/user/:username/latest-clock-in', UserController.getLatestClockIn);
+app.get('/user/:username/latest-clock-out', UserController.getLatestClockOut);
+app.get('/user/:username/all-clock-ins', UserController.getAllClockInsByUsername);
+app.get('/user/:username/all-clock-outs', UserController.getAllClockOutsByUsername);
+app.get('/get-clock-ins', ClockInController.getAllClockIns);
+app.get('/get-clock-outs', ClockOutController.getAllClockOuts);
 
 
-app.post('/api/clock-in', SlackController.clockUserIn);
+app.post('/clock-in', SlackController.clockUserIn);
 
-app.post('/api/clock-out', SlackController.clockUserOut);
+app.post('/clock-out', SlackController.clockUserOut);
 
 app.post('/slack-event', async function(req, res, next) {
   console.log(req.body);
